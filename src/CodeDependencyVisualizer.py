@@ -99,8 +99,9 @@ def processClass(cursor, inclusionConfig):
         umlClass.fqn = cursor.type.spelling  # the fully qualified name
 
     import re
-    if (inclusionConfig['excludeClasses'] and
-            re.match(inclusionConfig['excludeClasses'], umlClass.fqn)):
+    if (inclusionConfig['excludeClasses']): 
+        for pat in inclusionConfig['excludeClasses']:
+            if (re.match(pat, umlClass.fqn)):
         return
 
     if (inclusionConfig['includeClasses'] and not
@@ -127,7 +128,7 @@ def traverseAst(cursor, inclusionConfig):
 
 def parseTranslationUnit(filePath, includeDirs, inclusionConfig):
     clangArgs = ['-x', 'c++'] + ['-I' + includeDir for includeDir in includeDirs]
-    tu = index.parse(filePath, args=clangArgs, options=clang.cindex.TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
+    tu = index.parse(filePath, args=clangArgs, options=clang.cindex.TranslationUnit.PARSE_SKIP_FUNCTION_BODIES|clang.cindex.TranslationUnit.PARSE_INCOMPLETE)
     for diagnostic in tu.diagnostics:
         logging.debug(diagnostic)
     logging.info('Translation unit:' + tu.spelling + "\n")
@@ -146,8 +147,8 @@ if __name__ == "__main__":
     parser.add_argument('-P', '--pubMembers', action="store_true", help="show public members")
     parser.add_argument('-I', '--includeDirs', help="additional search path(s) for include files (seperated by space)", nargs='+')
     parser.add_argument('-v', '--verbose', action="store_true", help="print verbose information for debugging purposes")
-    parser.add_argument('--excludeClasses', help="classes matching this pattern will be excluded")
-    parser.add_argument('--includeClasses', help="only classes matching this pattern will be included")
+    parser.add_argument('--excludeClasses', help="classes matching this pattern will be excluded", nargs='+')
+    parser.add_argument('--includeClasses', help="only classes matching this pattern will be included", nargs='+')
 
     args = vars(parser.parse_args(sys.argv[1:]))
 
