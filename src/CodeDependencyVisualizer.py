@@ -104,9 +104,13 @@ def processClass(cursor, inclusionConfig):
             if (re.match(pat, umlClass.fqn)):
                 return
 
-    if (inclusionConfig['includeClasses'] and not
-            re.match(inclusionConfig['includeClasses'], umlClass.fqn)):
-                return
+    matched = None
+    if (inclusionConfig['includeClasses']):
+        for pat in inclusionConfig['includeClasses']:
+            if re.match(pat, umlClass.fqn):
+                matched = pat
+    if matched is None:
+        return
 
     for c in cursor.get_children():
         # process member variables and methods declarations
