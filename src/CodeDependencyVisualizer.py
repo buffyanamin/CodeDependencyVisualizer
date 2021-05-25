@@ -135,7 +135,7 @@ def parseTranslationUnit(filePath, includeDirs, inclusionConfig):
     tu = index.parse(filePath, args=clangArgs, options=clang.cindex.TranslationUnit.PARSE_SKIP_FUNCTION_BODIES|clang.cindex.TranslationUnit.PARSE_INCOMPLETE)
     for diagnostic in tu.diagnostics:
         logging.debug(diagnostic)
-    logging.info('Translation unit:' + tu.spelling + "\n")
+    logging.info('Translation unit: ' + tu.spelling + "\n")
     traverseAst(tu.cursor, inclusionConfig)
 
 
@@ -151,8 +151,8 @@ if __name__ == "__main__":
     parser.add_argument('-P', '--pubMembers', action="store_true", help="show public members")
     parser.add_argument('-I', '--includeDirs', help="additional search path(s) for include files (seperated by space)", nargs='+')
     parser.add_argument('-v', '--verbose', action="store_true", help="print verbose information for debugging purposes")
-    parser.add_argument('--excludeClasses', help="classes matching this pattern will be excluded", nargs='+')
-    parser.add_argument('--includeClasses', help="only classes matching this pattern will be included", nargs='+')
+    parser.add_argument('--excludeClasses', help="classes matching this pattern will be excluded (seperated by space)", nargs='+')
+    parser.add_argument('--includeClasses', help="only classes matching this pattern will be included (seperated by space)", nargs='+')
 
     args = vars(parser.parse_args(sys.argv[1:]))
 
