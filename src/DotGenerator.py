@@ -109,15 +109,15 @@ class DotGenerator:
     def generate(self):
         dotContent = ("digraph dependencies {\n" +
                       "  fontname = \"Bitstream Vera Sans\"\n" +
-                      "  fontsize = 8" +
+                      "  fontsize = 9" +
                       "  node [" +
                       "    fontname = \"Bitstream Vera Sans\"\n" +
-                      "    fontsize = 8\n" +
+                      "    fontsize = 9\n" +
                       "    shape = \"record\"\n" +
                       "  ]\n" +
                       "  edge [\n" +
                       "    fontname = \"Bitstream Vera Sans\"\n" +
-                      "    fontsize = 8\n" +
+                      "    fontsize = 9\n" +
                       "  ]\n"
                       )
 
